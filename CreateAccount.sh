@@ -20,6 +20,8 @@ then
 fi
 
 echo "Account: ${acc}, Verification type: $verify"
+echo "Enter Blockchain contract password:"
+read contractPassword
 
 ${proton} wallet create -n proton_${acc} --file ${acc}.psw
 ${proton} wallet unlock -n proton_${acc} --password `cat ${acc}.psw`
@@ -42,7 +44,7 @@ done
 
 if [[ "$verify" == "d" || "$verify" == "v" ]]; then
     echo "Verifying the User"
-    ${proton} wallet unlock -n proton_freeosconfig --password PW5KhwXSFB1gfDSTVP9eiiU8uRBXXG7DbdP2ooGFXiM68jTNatker
+    ${proton} wallet unlock -n proton_freeosconfig --password $contractPassword
     ${proton} push action freeosconfig userverify "[\"${acc}\", \"metal.kyc\", true]" -p freeosconfig@active
     ${proton} get table freeosconfig freeosconfig usersinfo | grep ${acc}
 fi
